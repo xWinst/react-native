@@ -1,0 +1,134 @@
+{
+    "_dispatchInstances": {
+        "_debugHookTypes": null,
+        "_debugNeedsRemount": false,
+
+        "actualDuration": 0.0967700183391571,
+        "actualStartTime": 81153285.417298,
+
+        "child": null,
+        "childLanes": 0,
+        "deletions": null,
+        "dependencies": null,
+        "elementType": "AndroidTextInput",
+        "flags": 516,
+        "index": 0,
+        "key": null,
+        "lanes": 0,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": true,
+            "autoCapitalize": "sentences",
+
+            "placeholder": "Логин",
+            "placeholderTextColor": "#BDBDBD",
+            "rejectResponderTermination": true,
+            "selection": null,
+            "style": ["Array"],
+            "text": "Ппп",
+            "underlineColorAndroid": "transparent",
+            "value": "Ппп"
+        },
+        "memoizedState": null,
+        "mode": 2,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": true,
+            "autoCapitalize": "sentences",
+            "blurOnSubmit": true,
+
+            "focusable": true,
+            "forwardedRef": null,
+            "mostRecentEventCount": 38,
+
+            "placeholder": "Логин",
+            "placeholderTextColor": "#BDBDBD",
+            "rejectResponderTermination": true,
+            "selection": null,
+            "style": ["Array"],
+            "text": "Ппп",
+            "underlineColorAndroid": "transparent",
+            "value": "Ппп"
+        },
+       
+       
+        
+          
+            
+           
+            
+           
+            "subtreeFlags": 0,
+            "tag": 5,
+            "treeBaseDuration": 0.05246201157569885,
+            "type": "AndroidTextInput",
+            "updateQueue": null
+        },
+        "currentTarget": {
+            "_children": [],
+            "_internalFiberInstanceHandleDEV": {
+                "_debugHookTypes": null,
+                "_debugNeedsRemount": false,
+                "actualDuration": 0.0967700183391571,
+                "actualStartTime": 81153285.417298,
+                "child": null,
+                "childLanes": 0,
+                "deletions": null,
+                "dependencies": null,
+                "elementType": "AndroidTextInput",
+                "flags": 516,
+                "index": 0,
+                "key": null,
+                "lanes": 0,
+                "memoizedState": null,
+                "mode": 2,
+                "selfBaseDuration": 0.05246201157569885,
+                "sibling": null,
+                "subtreeFlags": 0,
+                "tag": 5,
+                "treeBaseDuration": 0.05246201157569885,
+                "type": "AndroidTextInput",
+                "updateQueue": null
+            },
+            "_nativeTag": 25,
+            "viewConfig": { "uiViewClassName": "AndroidTextInput" }
+        },
+        "dispatchConfig": {
+            "phasedRegistrationNames": {
+                "bubbled": "onFocus",
+                "captured": "onFocusCapture"
+            }
+        },
+        "nativeEvent": { "target": 25 },
+        "target": {
+            "_children": [],
+            "_internalFiberInstanceHandleDEV": {
+                "_debugHookTypes": null,
+                "_debugNeedsRemount": false,
+                "actualDuration": 0.0967700183391571,
+                "actualStartTime": 81153285.417298,
+                "child": null,
+                "childLanes": 0,
+                "deletions": null,
+                "dependencies": null,
+                "elementType": "AndroidTextInput",
+                "flags": 516,
+                "index": 0,
+                "key": null,
+                "lanes": 0,
+                "memoizedState": null,
+                "mode": 2,
+                "selfBaseDuration": 0.05246201157569885,
+                "sibling": null,
+                "subtreeFlags": 0,
+                "tag": 5,
+                "treeBaseDuration": 0.05246201157569885,
+                "type": "AndroidTextInput",
+                "updateQueue": null
+            },
+            "_nativeTag": 25,
+            "viewConfig": { "uiViewClassName": "AndroidTextInput" }
+        },
+        "timeStamp": 1671007739699
+    }
+}
