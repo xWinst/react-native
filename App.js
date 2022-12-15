@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View, ImageBackground } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
-import * as SplashScreen from "expo-splash-screen";
-import RegistrationScreen from "./assets/Screens/RegistrationScreen";
-import LoginScreen from "./assets/Screens/LoginScreen";
-// import RegistrationScreen from "./assets/Screens";
+import RegistrationScreen from "./Screens/auth/RegistrationScreen";
+import LoginScreen from "./Screens/auth/LoginScreen";
+import Home from "./Screens/main/Home";
+
+const AuthStack = createStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,12 +16,12 @@ const loadFonts = async () => {
     await Font.loadAsync({
         "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
         "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+        "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
     });
 };
 
 const App = () => {
     const [isReady, setIsReady] = useState(false);
-    const [page, setPage] = useState("register");
 
     useEffect(() => {
         async function prepare() {
@@ -42,36 +45,27 @@ const App = () => {
         return null;
     }
 
-    const login = () => setPage("login");
-
-    const register = () => setPage("register");
-
     return (
-        <View style={s.container}>
-            <ImageBackground
-                style={s.image}
-                resizeMode="cover"
-                source={require("./assets/images/bg.jpg")}
-                onLayout={onLayoutRootView}
-            >
-                {page === "register" && <RegistrationScreen onClick={login} />}
-                {page === "login" && <LoginScreen onClick={register} />}
-            </ImageBackground>
-        </View>
+        <NavigationContainer onLayout={onLayoutRootView}>
+            <AuthStack.Navigator>
+                <AuthStack.Screen
+                    name="Register"
+                    options={{ headerShown: false }}
+                    component={RegistrationScreen}
+                />
+                <AuthStack.Screen
+                    name="Login"
+                    options={{ headerShown: false }}
+                    component={LoginScreen}
+                />
+                <AuthStack.Screen
+                    name="Home"
+                    options={{ headerShown: false }}
+                    component={Home}
+                />
+            </AuthStack.Navigator>
+        </NavigationContainer>
     );
 };
-
-const s = StyleSheet.create({
-    container: {
-        flex: 1,
-        // backgroundColor: "#fff",
-        // alignItems: "center",
-    },
-
-    image: {
-        flex: 1,
-        justifyContent: "flex-end",
-    },
-});
 
 export default App;
