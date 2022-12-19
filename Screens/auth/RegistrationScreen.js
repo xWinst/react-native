@@ -10,10 +10,11 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     ImageBackground,
+    Image,
     useWindowDimensions,
 } from "react-native";
 
-const RegistrationScreen = ({ navigation }) => {
+const RegistrationScreen = ({ navigation, route }) => {
     const { height, width } = useWindowDimensions();
     const [isHidePass, setIsHidePass] = useState(true);
     const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -21,6 +22,9 @@ const RegistrationScreen = ({ navigation }) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [focused, setFocused] = useState();
+    const [foto, setFoto] = useState();
+
+    const [showCamera, setShowCamera] = useState(false);
 
     useEffect(() => {
         const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -36,22 +40,27 @@ const RegistrationScreen = ({ navigation }) => {
         };
     }, []);
 
+    useEffect(() => {
+        setFoto(route.params?.photo);
+    }, [route.params]);
+
     const showPass = () => {
         setIsHidePass((state) => !state);
     };
 
     const submitForm = () => {
-        const userData = { login, email, password };
+        const userData = { login, email, password, foto };
         console.log("userData: ", userData);
         setLogin("");
         setEmail("");
         setPassword("");
         setFocused(null);
-        navigation.navigate("Home", { screen: "Posts" });
+        navigation.navigate("Home", { screen: "Posts", userData });
     };
 
-    const setFoto = () => {
-        alert("Тут могла быть ваша реклама, ну или фото :)");
+    const chooseFoto = () => {
+        if (foto) setFoto(null);
+        else navigation.navigate("FaceCamera");
     };
 
     return (
@@ -65,6 +74,7 @@ const RegistrationScreen = ({ navigation }) => {
                     <View
                         style={{
                             ...s.container,
+                            width,
                             marginBottom: isShowKeyboard ? -200 : 0,
                         }}
                     >
@@ -74,12 +84,30 @@ const RegistrationScreen = ({ navigation }) => {
                                 transform: [{ translateX: (width - 120) / 2 }],
                             }}
                         >
+                            {foto && (
+                                <Image
+                                    style={s.userFoto}
+                                    resizeMode="cover"
+                                    source={{ uri: foto }}
+                                />
+                            )}
                             <TouchableOpacity
-                                style={s.plusBox}
+                                style={{
+                                    ...s.plusBox,
+                                    borderColor: foto ? "#E8E8E8" : "#FF6C00",
+                                    top: foto ? -40 : 80,
+                                }}
                                 activeOpacity={0.6}
-                                onPress={setFoto}
+                                onPress={chooseFoto}
                             >
-                                <Text style={s.plus}>+</Text>
+                                <Text
+                                    style={{
+                                        ...s.plus,
+                                        color: foto ? "#E8E8E8" : "#FF6C00",
+                                    }}
+                                >
+                                    {foto ? "x" : "+"}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                         <Text style={s.title}>Регистрация</Text>
@@ -176,6 +204,7 @@ const s = StyleSheet.create({
     image: {
         flex: 1,
         justifyContent: "flex-end",
+        alignItems: "center",
     },
 
     container: {
@@ -196,21 +225,25 @@ const s = StyleSheet.create({
         borderRadius: 16,
     },
 
+    userFoto: {
+        width: 120,
+        height: 120,
+        borderRadius: 16,
+    },
+
     plusBox: {
         left: 107.5,
-        top: 81,
         width: 25,
         height: 25,
         borderRadius: 12.5,
-        borderColor: "#FF6C00",
         borderWidth: 1,
+        backgroundColor: "#ffffff",
     },
 
     plus: {
         fontFamily: "Roboto-Regular",
         fontSize: 23,
         textAlign: "center",
-        color: "#FF6C00",
         top: -5,
     },
 

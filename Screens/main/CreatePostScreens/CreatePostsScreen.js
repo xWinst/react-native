@@ -13,21 +13,52 @@ import {
     Platform,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-const CreatePostsScreen = () => {
+const CreatePostsScreen = ({ navigation, route }) => {
     const [title, setTitle] = useState();
     const [location, setLocation] = useState();
+    const [image, setImage] = useState();
 
     const { width } = useWindowDimensions();
+
+    useEffect(() => {
+        setImage(route.params?.image.uri);
+        setLocation(route.params?.location);
+    }, [route.params]);
+
+    const reset = () => {
+        setTitle(null);
+        setLocation(null);
+        setImage(null);
+    };
+
+    const publish = () => {
+        const post = { title, image, location };
+        reset();
+        navigation.navigate("MainScreen", {
+            post,
+        });
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={s.container}>
                 <View style={s.foto}>
+                    {image && (
+                        <Image
+                            style={s.image}
+                            resizeMode="cover"
+                            source={{ uri: image }}
+                        />
+                    )}
                     <View style={s.fotoIcon}>
-                        <FontAwesome name="camera" size={20} color="#BDBDBD" />
+                        <FontAwesome
+                            name="camera"
+                            size={20}
+                            color="#BDBDBD"
+                            onPress={() => navigation.navigate("MainCamera")}
+                        />
                     </View>
                 </View>
                 <Text style={s.description}>Загрузите фото</Text>
@@ -42,28 +73,31 @@ const CreatePostsScreen = () => {
                             placeholder="Название..."
                             placeholderTextColor="#BDBDBD"
                         />
-                        <TextInput
-                            style={{ ...s.input, paddingLeft: 28 }}
-                            value={location}
-                            onChangeText={setLocation}
-                            placeholder="Местность..."
-                            placeholderTextColor="#BDBDBD"
-                        />
-                        <SimpleLineIcons
-                            style={s.icon}
-                            name="location-pin"
-                            size={24}
-                            color="#BDBDBD"
-                        />
+                        <View style={s.location}>
+                            <Feather
+                                style={s.icon}
+                                name="map-pin"
+                                size={24}
+                                color="#BDBDBD"
+                            />
+                            <Text
+                                style={{
+                                    ...s.description,
+                                    color: location ? "#212121" : "#BDBDBD",
+                                }}
+                            >
+                                {location ? location.place : "Местность..."}
+                            </Text>
+                        </View>
+
                         <TouchableOpacity
-                            style={title && location ? s.btn : s.disable}
+                            style={title && image ? s.btn : s.disable}
                             activeOpacity={0.6}
+                            onPress={publish}
                         >
                             <Text
                                 style={
-                                    title && location
-                                        ? s.btnText
-                                        : s.disableText
+                                    title && image ? s.btnText : s.disableText
                                 }
                             >
                                 Опубликовать
@@ -77,6 +111,7 @@ const CreatePostsScreen = () => {
                                 ],
                             }}
                             activeOpacity={0.6}
+                            onPress={reset}
                         >
                             <Feather name="trash-2" size={24} color="#BDBDBD" />
                         </TouchableOpacity>
@@ -107,7 +142,14 @@ const s = StyleSheet.create({
         backgroundColor: "#F6F6F6",
     },
 
+    image: {
+        width: "100%",
+        height: 240,
+        borderRadius: 8,
+    },
+
     fotoIcon: {
+        position: "absolute",
         width: 60,
         height: 60,
         alignItems: "center",
@@ -137,10 +179,21 @@ const s = StyleSheet.create({
         borderColor: "#E8E8E8",
     },
 
+    location: {
+        flexDirection: "row",
+        marginTop: 20,
+        paddingBottom: 15,
+        paddingTop: 15,
+        fontSize: 16,
+        lineHeight: 19,
+        borderBottomWidth: 1,
+        borderColor: "#E8E8E8",
+        color: "#BDBDBD",
+    },
+
     icon: {
-        position: "absolute",
-        top: 110,
-        left: 0,
+        marginRight: 12,
+        top: 5,
     },
 
     btn: {
@@ -174,7 +227,6 @@ const s = StyleSheet.create({
     },
 
     basket: {
-        // position: "absolute",
         width: 70,
         marginTop: 40,
         padding: 8,

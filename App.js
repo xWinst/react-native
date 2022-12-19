@@ -6,7 +6,10 @@ import * as Font from "expo-font";
 
 import RegistrationScreen from "./Screens/auth/RegistrationScreen";
 import LoginScreen from "./Screens/auth/LoginScreen";
+import FaceCamera from "./Screens/auth/nested/FaceCamera";
 import Home from "./Screens/main/Home";
+
+// import { Text, View } from "react-native";
 
 const AuthStack = createStackNavigator();
 
@@ -63,8 +66,20 @@ const App = () => {
                     options={{ headerShown: false }}
                     component={Home}
                 />
+                <AuthStack.Screen
+                    name="FaceCamera"
+                    options={{ headerShown: false }}
+                    component={FaceCamera}
+                />
             </AuthStack.Navigator>
         </NavigationContainer>
+        // <View onLayout={onLayoutRootView}>
+        //     <Text>
+        //         Загрузите фото Загрузите фото Загрузите фото фото Загрузите фото
+        //         Загрузите фото Загрузите фото Загрузите фото Загрузите фото
+        //         Загрузите фото111 Загрузите
+        //     </Text>
+        // </View>
     );
 };
 

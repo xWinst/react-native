@@ -1,55 +1,63 @@
-import { StyleSheet, Image, View, Text } from "react-native";
-const PostsScreen = () => {
+import { createStackNavigator } from "@react-navigation/stack";
+import { Feather } from "@expo/vector-icons";
+import MainScreen from "./PostsScreens/MainScreen";
+import MapScreen from "./PostsScreens/MapScreen";
+import CommentsScreen from "./PostsScreens/CommentsScreen";
+
+const Stack = createStackNavigator();
+
+const PostsScreen = ({ navigation }) => {
     return (
-        <View style={s.container}>
-            <View style={s.user}>
-                <Image
-                    style={s.image}
-                    resizeMode="cover"
-                    source={require("../../assets/images/user.jpg")}
-                />
-                <View style={s.userData}>
-                    <Text style={s.name}>Oleg Chuchin</Text>
-                    <Text style={s.email}>oleg@gmail.com</Text>
-                </View>
-            </View>
-        </View>
+        <Stack.Navigator
+            screenOptions={{
+                headerTitleAlign: "center",
+                headerLeftContainerStyle: {
+                    paddingLeft: 16,
+                },
+                headerRightContainerStyle: {
+                    paddingRight: 16,
+                },
+            }}
+        >
+            <Stack.Screen
+                name="MainScreen"
+                options={{
+                    title: "Публикации",
+                    headerTitleAlign: "center",
+                    headerLeft: null,
+                    headerRight: ({ focused, size, color }) => (
+                        <Feather
+                            name="log-out"
+                            size={24}
+                            color="#BDBDBD"
+                            onPress={() => navigation.navigate("Login")}
+                        />
+                    ),
+                    headerTitleStyle: {
+                        color: "#212121",
+                        fontFamily: "Roboto-Medium",
+                        fontSize: 17,
+                        lineHeight: 22,
+                        letterSpacing: -0.4,
+                    },
+                }}
+                component={MainScreen}
+            />
+            <Stack.Screen
+                name="Map"
+                options={{
+                    title: "Карта местности",
+                    tabBarStyle: { display: "none" },
+                }}
+                component={MapScreen}
+            />
+            <Stack.Screen
+                name="Comments"
+                options={{ title: "Комментарии", tabBarVisible: false }}
+                component={CommentsScreen}
+            />
+        </Stack.Navigator>
     );
 };
-
-const s = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#ffffff",
-        paddingTop: 32,
-        padding: 16,
-        borderTopWidth: 2,
-        borderColor: "#F6F6F6",
-    },
-
-    user: {
-        alignItems: "center",
-        flexDirection: "row",
-    },
-
-    name: {
-        fontFamily: "Roboto-Bold",
-        fontSize: 13,
-        lineHeight: 15,
-    },
-
-    email: {
-        fontFamily: "Roboto-Regular",
-        fontSize: 11,
-        lineHeight: 13,
-    },
-
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 16,
-        marginRight: 8,
-    },
-});
 
 export default PostsScreen;

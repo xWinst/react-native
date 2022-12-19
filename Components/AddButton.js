@@ -12,8 +12,6 @@ const s = StyleSheet.create({
     btn: {
         width: 70,
         height: 40,
-        // marginTop: 43,
-        // marginHorizontal: 16,
         padding: 1,
         borderRadius: 20,
         backgroundColor: "#FF6C00",
@@ -22,7 +20,6 @@ const s = StyleSheet.create({
     btnText: {
         fontFamily: "Roboto-Regular",
         fontSize: 26,
-        // lineHeight: 30,
         color: "#ffffff",
         textAlign: "center",
     },
