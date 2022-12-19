@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
 import PostsScreen from "./PostsScreen";
@@ -19,11 +20,20 @@ const Home = ({ navigation, route }) => {
             }}
         >
             <MainTab.Screen
-                options={{
+                options={({ route }) => ({
                     tabBarIcon: ({ focused, size, color }) => (
                         <Feather name="grid" size={size} color={color} />
                     ),
-                }}
+                    tabBarStyle: ((route) => {
+                        const routeName =
+                            getFocusedRouteNameFromRoute(route) ?? "";
+                        console.log(routeName);
+                        if (routeName === "Comments") {
+                            return { display: "none" };
+                        }
+                        return { height: 83 };
+                    })(route),
+                })}
                 name="Posts"
                 component={PostsScreen}
             />
