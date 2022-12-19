@@ -9,8 +9,6 @@ import LoginScreen from "./Screens/auth/LoginScreen";
 import FaceCamera from "./Screens/auth/nested/FaceCamera";
 import Home from "./Screens/main/Home";
 
-// import { Text, View } from "react-native";
-
 const AuthStack = createStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
@@ -73,13 +71,6 @@ const App = () => {
                 />
             </AuthStack.Navigator>
         </NavigationContainer>
-        // <View onLayout={onLayoutRootView}>
-        //     <Text>
-        //         Загрузите фото Загрузите фото Загрузите фото фото Загрузите фото
-        //         Загрузите фото Загрузите фото Загрузите фото Загрузите фото
-        //         Загрузите фото111 Загрузите
-        //     </Text>
-        // </View>
     );
 };
 
