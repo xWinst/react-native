@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Camera, CameraType } from "expo-camera";
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -15,7 +16,13 @@ const FaceCamera = ({ navigation }) => {
 
     const snap = async () => {
         const data = await camera.takePictureAsync();
-        navigation.navigate("Register", { photo: data.uri });
+
+        const photo = await manipulateAsync(
+            data.uri,
+            [{ resize: { width: 480, height: 480 } }],
+            { format: "jpeg" }
+        );
+        navigation.navigate("Register", { photo: photo.uri });
     };
 
     return (

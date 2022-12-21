@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
     StyleSheet,
     Image,
@@ -8,30 +9,37 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { getAll } from "../../../redux/dashboard/postsOperations";
 
-const MainScreen = ({ navigation, route }) => {
-    const [posts, setPosts] = useState([]);
+const MainScreen = ({ navigation }) => {
+    const user = useSelector((state) => state.auth.user);
+    const posts = useSelector((state) => state.posts.posts);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (route.params) setPosts((state) => [...posts, route.params.post]);
-    }, [route.params]);
+        dispatch(getAll());
+    }, []);
 
     return (
         <View style={s.container}>
             <View style={s.user}>
                 <Image
-                    style={s.image}
+                    style={{ ...s.image, width: 60, height: 60 }}
                     resizeMode="cover"
-                    source={require("../../../assets/images/user.jpg")}
+                    source={
+                        user?.photo
+                            ? { uri: user.photo }
+                            : require("../../../assets/images/nophoto.png")
+                    }
                 />
                 <View style={s.userData}>
-                    <Text style={s.name}>Oleg Chuchin</Text>
-                    <Text style={s.email}>oleg@gmail.com</Text>
+                    <Text style={s.name}>{user?.name || "anonym"}</Text>
+                    <Text style={s.email}>{user?.email || "no email"}</Text>
                 </View>
             </View>
             <FlatList
                 data={posts}
-                keyExtractor={(item, idx) => idx.toString()}
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={s.post}>
                         <Image
@@ -46,6 +54,7 @@ const MainScreen = ({ navigation, route }) => {
                                 onPress={() =>
                                     navigation.navigate("Comments", {
                                         image: item.image,
+                                        post: item.id,
                                     })
                                 }
                             >
@@ -65,7 +74,7 @@ const MainScreen = ({ navigation, route }) => {
                                     color="#BDBDBD"
                                 />
                                 <Text style={{ ...s.text, color: "#BDBDBD" }}>
-                                    0
+                                    {item.comments.length}
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -97,8 +106,8 @@ const s = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#ffffff",
-        paddingTop: 32,
         padding: 16,
+        paddingTop: 32,
         borderTopWidth: 2,
         borderColor: "#F6F6F6",
     },
@@ -106,6 +115,7 @@ const s = StyleSheet.create({
     user: {
         alignItems: "center",
         flexDirection: "row",
+        marginBottom: 32,
     },
 
     name: {
@@ -121,14 +131,12 @@ const s = StyleSheet.create({
     },
 
     image: {
-        width: 60,
-        height: 60,
         borderRadius: 16,
         marginRight: 8,
     },
 
     post: {
-        marginTop: 32,
+        marginBottom: 32,
     },
 
     picture: {

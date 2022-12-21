@@ -1,12 +1,21 @@
+import { useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Feather } from "@expo/vector-icons";
 import MainScreen from "./PostsScreens/MainScreen";
 import MapScreen from "./PostsScreens/MapScreen";
 import CommentsScreen from "./PostsScreens/CommentsScreen";
 
+import { logout } from "../../redux/auth/authOperation";
+
 const Stack = createStackNavigator();
 
 const PostsScreen = ({ navigation }) => {
+    const dispatch = useDispatch();
+
+    const exit = () => {
+        dispatch(logout());
+    };
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -23,14 +32,13 @@ const PostsScreen = ({ navigation }) => {
                 name="MainScreen"
                 options={{
                     title: "Публикации",
-                    headerTitleAlign: "center",
                     headerLeft: null,
                     headerRight: ({ focused, size, color }) => (
                         <Feather
                             name="log-out"
                             size={24}
                             color="#BDBDBD"
-                            onPress={() => navigation.navigate("Login")}
+                            onPress={exit}
                         />
                     ),
                     headerTitleStyle: {

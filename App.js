@@ -1,15 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+
+import { Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
-import RegistrationScreen from "./Screens/auth/RegistrationScreen";
-import LoginScreen from "./Screens/auth/LoginScreen";
-import FaceCamera from "./Screens/auth/nested/FaceCamera";
-import Home from "./Screens/main/Home";
-
-import { Text, View } from "react-native";
+import { store } from "./redux/store";
+import Main from "./Components/Main";
 
 const AuthStack = createStackNavigator();
 
@@ -49,30 +47,9 @@ const App = () => {
     }
 
     return (
-        <NavigationContainer onLayout={onLayoutRootView}>
-            <AuthStack.Navigator>
-                <AuthStack.Screen
-                    name="Register"
-                    options={{ headerShown: false }}
-                    component={RegistrationScreen}
-                />
-                <AuthStack.Screen
-                    name="Login"
-                    options={{ headerShown: false }}
-                    component={LoginScreen}
-                />
-                <AuthStack.Screen
-                    name="Home"
-                    options={{ headerShown: false }}
-                    component={Home}
-                />
-                <AuthStack.Screen
-                    name="FaceCamera"
-                    options={{ headerShown: false }}
-                    component={FaceCamera}
-                />
-            </AuthStack.Navigator>
-        </NavigationContainer>
+        <Provider store={store} onLayout={onLayoutRootView}>
+            <Main />
+        </Provider>
         // <View onLayout={onLayoutRootView}>
         //     <Text>
         //         Загрузите фото Загрузите фото Загрузите фото фото Загрузите фото

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
     StyleSheet,
     View,
@@ -13,9 +14,9 @@ import {
     Image,
     useWindowDimensions,
 } from "react-native";
+import { register } from "../../redux/auth/authOperation";
 
 const RegistrationScreen = ({ navigation, route }) => {
-    const { height, width } = useWindowDimensions();
     const [isHidePass, setIsHidePass] = useState(true);
     const [isShowKeyboard, setIsShowKeyboard] = useState(false);
     const [login, setLogin] = useState();
@@ -23,6 +24,9 @@ const RegistrationScreen = ({ navigation, route }) => {
     const [password, setPassword] = useState();
     const [focused, setFocused] = useState();
     const [foto, setFoto] = useState();
+
+    const { height, width } = useWindowDimensions();
+    const dispatch = useDispatch();
 
     const [showCamera, setShowCamera] = useState(false);
 
@@ -50,12 +54,11 @@ const RegistrationScreen = ({ navigation, route }) => {
 
     const submitForm = () => {
         const userData = { login, email, password, foto };
-        console.log("userData: ", userData);
+        dispatch(register(userData));
         setLogin("");
         setEmail("");
         setPassword("");
         setFocused(null);
-        navigation.navigate("Home", { screen: "Posts", userData });
     };
 
     const chooseFoto = () => {

@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
-import PostsScreen from "./PostsScreen";
-import Create from "./Create";
-import ProfileScreen from "./ProfileScreen";
+import PostsScreen from "../main/PostsScreen";
+import Create from "../main/Create";
+import ProfileScreen from "../main/ProfileScreen";
 
 import AddButton from "../../Components/AddButton";
 
@@ -27,7 +27,6 @@ const Home = ({ navigation, route }) => {
                     tabBarStyle: ((route) => {
                         const routeName =
                             getFocusedRouteNameFromRoute(route) ?? "";
-                        console.log(routeName);
                         if (routeName === "Comments") {
                             return { display: "none" };
                         }

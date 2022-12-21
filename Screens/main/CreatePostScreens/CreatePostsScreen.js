@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
     StyleSheet,
     Image,
@@ -14,12 +15,15 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { addPost } from "../../../redux/dashboard/postsOperations";
 
 const CreatePostsScreen = ({ navigation, route }) => {
     const [title, setTitle] = useState();
     const [location, setLocation] = useState();
     const [image, setImage] = useState();
 
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const { width } = useWindowDimensions();
 
     useEffect(() => {
@@ -34,11 +38,10 @@ const CreatePostsScreen = ({ navigation, route }) => {
     };
 
     const publish = () => {
-        const post = { title, image, location };
+        const post = { title, image, location, id: user.id };
         reset();
-        navigation.navigate("MainScreen", {
-            post,
-        });
+        dispatch(addPost(post));
+        navigation.navigate("MainScreen");
     };
 
     return (

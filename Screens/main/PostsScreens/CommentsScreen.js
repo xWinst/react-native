@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
     StyleSheet,
     Image,
@@ -14,20 +15,37 @@ import {
     useWindowDimensions,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { addComments } from "../../../redux/dashboard/postsOperations";
 
 const CommentsScreen = ({ navigation, route }) => {
+    const posts = useSelector((state) => state.posts.posts);
+    const user = useSelector((state) => state.auth.user);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState();
     const [image, setImage] = useState();
+    const [postId, setPostId] = useState();
 
+    const dispatch = useDispatch();
     const { width } = useWindowDimensions();
 
     useEffect(() => {
-        if (route.params) setImage(route.params.image);
+        if (route.params) {
+            setImage(route.params.image);
+            setPostId(route.params.post);
+            const result = posts.find((post) => post.id === route.params.post);
+            setComments(result.comments);
+        }
     }, [route.params]);
 
+    useEffect(() => {
+        if (postId) {
+            const result = posts.find((post) => post.id === postId);
+            setComments(result.comments);
+        }
+    }, [posts]);
+
     const sendComments = () => {
-        setComments((state) => [...state, comment]);
+        dispatch(addComments({ postId, user: user.photo, comment }));
         setComment("");
     };
 
@@ -41,18 +59,18 @@ const CommentsScreen = ({ navigation, route }) => {
                         source={{ uri: image }}
                     />
                     <FlatList
+                        style={{ height: 320 }}
                         data={comments}
                         keyExtractor={(item, idx) => idx.toString()}
                         renderItem={({ item }) => (
                             <View style={s.comment}>
                                 <View style={s.icon}>
-                                    <Feather
-                                        name="user"
-                                        size={24}
-                                        color="#BDBDBD"
+                                    <Image
+                                        style={{ width: 28, height: 28 }}
+                                        source={{ uri: item.user }}
                                     />
                                 </View>
-                                <Text style={s.text}>{item}</Text>
+                                <Text style={s.text}>{item.comment}</Text>
                             </View>
                         )}
                     />
@@ -116,6 +134,7 @@ const s = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#1B4371",
         borderRadius: 14,
+        overflow: "hidden",
     },
 
     text: {

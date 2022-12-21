@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
     StyleSheet,
     View,
@@ -10,9 +11,10 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     ImageBackground,
+    useWindowDimensions,
 } from "react-native";
 
-import { useWindowDimensions } from "react-native";
+import { login } from "../../redux/auth/authOperation";
 
 const LoginScreen = ({ navigation }) => {
     const { height, width } = useWindowDimensions();
@@ -21,6 +23,8 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [focused, setFocused] = useState();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -42,11 +46,10 @@ const LoginScreen = ({ navigation }) => {
 
     const submitForm = () => {
         const userData = { email, password };
-        console.log("userData: ", userData);
+        dispatch(login(userData));
         setEmail("");
         setPassword("");
         setFocused(null);
-        navigation.navigate("Home", { screen: "Posts" });
     };
 
     return (

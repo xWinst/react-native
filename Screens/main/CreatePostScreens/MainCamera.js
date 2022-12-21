@@ -38,7 +38,7 @@ const MainCamera = ({ navigation }) => {
     return (
         <View style={s.container}>
             <View style={s.cameraBox}>
-                <Camera ref={setCamera} style={s.camera} ratio="1:1">
+                <Camera ref={setCamera} style={s.camera} ratio="4:3">
                     <TouchableOpacity
                         style={s.btn}
                         activeOpacity={0.6}
