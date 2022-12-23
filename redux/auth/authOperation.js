@@ -8,12 +8,12 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../../firebase/config";
-import { updateUser } from "./authReducer";
+import { updateUser, setError } from "./authReducer";
 import { upload } from "../../firebase/storage";
 
 export const register =
     ({ login, email, password, foto }) =>
-    async (dispath, getState) => {
+    async (dispatch, getState) => {
         try {
             const { user } = await createUserWithEmailAndPassword(
                 auth,
@@ -29,7 +29,7 @@ export const register =
                 photoURL: avatarURL,
             });
 
-            dispath(
+            dispatch(
                 updateUser({
                     id: user.uid,
                     name: user.displayName,
@@ -38,20 +38,19 @@ export const register =
                 })
             );
         } catch (error) {
-            console.log("error.code: ", error.code);
-            console.log("error.message: ", error.message);
+            dispatch(setError(["Ошибка регистрации:", error.message]));
         }
     };
 export const login =
     ({ email, password }) =>
-    async (dispath, getState) => {
+    async (dispatch, getState) => {
         try {
             const { user } = await signInWithEmailAndPassword(
                 auth,
                 email,
                 password
             );
-            dispath(
+            dispatch(
                 updateUser({
                     id: user.uid,
                     name: user.displayName,
@@ -60,16 +59,20 @@ export const login =
                 })
             );
         } catch (error) {
-            console.log("error.message: ", error.message);
+            dispatch(setError(["Ошибка входа:", error.message]));
         }
     };
-export const logout = () => async (dispath, getState) => {
-    await signOut(auth);
+export const logout = () => async (dispatch, getState) => {
+    try {
+        await signOut(auth);
+    } catch (error) {
+        dispatch(setError(["Ошибка выхода:", error.message]));
+    }
 };
 
-export const getUser = () => (dispath, getState) => {
+export const getUser = () => (dispatch, getState) => {
     onAuthStateChanged(auth, (user) => {
-        dispath(
+        dispatch(
             updateUser(
                 user && {
                     id: user.uid,
@@ -80,4 +83,8 @@ export const getUser = () => (dispath, getState) => {
             )
         );
     });
+};
+
+export const errorReset = () => (dispath, getState) => {
+    dispath(setError(null));
 };

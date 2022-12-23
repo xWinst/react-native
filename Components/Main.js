@@ -15,7 +15,9 @@ import { getUser } from "../redux/auth/authOperation";
 const AuthStack = createStackNavigator();
 
 const Main = () => {
+    const [isShowModal, setIsShowModal] = useState(false);
     const user = useSelector((state) => state.auth.user);
+
     const dispatch = useDispatch();
     const navigationRef = useNavigationContainerRef();
 

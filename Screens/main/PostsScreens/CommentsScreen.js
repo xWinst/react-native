@@ -78,7 +78,7 @@ const CommentsScreen = ({ navigation, route }) => {
                 <KeyboardAvoidingView
                     behavior={Platform.OS == "ios" ? "padding" : "height"}
                 >
-                    <View style={s.form}>
+                    <View style={{ ...s.form }}>
                         <TextInput
                             style={{ ...s.input, width: width - 82 }}
                             value={comment}
@@ -151,7 +151,6 @@ const s = StyleSheet.create({
 
     form: {
         flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "center",
         paddingRight: 8,
         backgroundColor: "#F6F6F6",

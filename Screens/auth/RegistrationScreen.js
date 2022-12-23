@@ -15,34 +15,21 @@ import {
     useWindowDimensions,
 } from "react-native";
 import { register } from "../../redux/auth/authOperation";
+import useIsShowBoard from "../../hooks/useIsShowKeyboard";
 
 const RegistrationScreen = ({ navigation, route }) => {
     const [isHidePass, setIsHidePass] = useState(true);
-    const [isShowKeyboard, setIsShowKeyboard] = useState(false);
     const [login, setLogin] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [focused, setFocused] = useState();
     const [foto, setFoto] = useState();
+    const isShowKeyboard = useIsShowBoard();
 
     const { height, width } = useWindowDimensions();
     const dispatch = useDispatch();
 
     const [showCamera, setShowCamera] = useState(false);
-
-    useEffect(() => {
-        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-            setIsShowKeyboard(true);
-        });
-        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-            setIsShowKeyboard(false);
-        });
-
-        return () => {
-            showSubscription.remove();
-            hideSubscription.remove();
-        };
-    }, []);
 
     useEffect(() => {
         setFoto(route.params?.photo);

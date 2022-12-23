@@ -55,13 +55,14 @@ const PostsScreen = ({ navigation }) => {
                 name="Map"
                 options={{
                     title: "Карта местности",
-                    tabBarStyle: { display: "none" },
                 }}
                 component={MapScreen}
             />
             <Stack.Screen
                 name="Comments"
-                options={{ title: "Комментарии", tabBarVisible: false }}
+                options={{
+                    title: "Комментарии",
+                }}
                 component={CommentsScreen}
             />
         </Stack.Navigator>

@@ -15,30 +15,17 @@ import {
 } from "react-native";
 
 import { login } from "../../redux/auth/authOperation";
+import useIsShowBoard from "../../hooks/useIsShowKeyboard";
 
 const LoginScreen = ({ navigation }) => {
     const { height, width } = useWindowDimensions();
     const [isHidePass, setIsHidePass] = useState(true);
-    const [isShowKeyboard, setIsShowKeyboard] = useState(false);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [focused, setFocused] = useState();
+    const isShowKeyboard = useIsShowBoard();
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-            setIsShowKeyboard(true);
-        });
-        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-            setIsShowKeyboard(false);
-        });
-
-        return () => {
-            showSubscription.remove();
-            hideSubscription.remove();
-        };
-    }, []);
 
     const showPass = () => {
         setIsHidePass((state) => !state);

@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { getAll } from "../../../redux/dashboard/postsOperations";
+import { subscribePosts } from "../../../redux/dashboard/postsOperations";
 
 const MainScreen = ({ navigation }) => {
     const user = useSelector((state) => state.auth.user);
@@ -17,7 +17,7 @@ const MainScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAll());
+        dispatch(subscribePosts());
     }, []);
 
     return (

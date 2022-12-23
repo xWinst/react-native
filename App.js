@@ -8,6 +8,7 @@ import * as Font from "expo-font";
 
 import { store } from "./redux/store";
 import Main from "./Components/Main";
+import Messages from "./Components/Modal";
 
 const AuthStack = createStackNavigator();
 
@@ -47,16 +48,12 @@ const App = () => {
     }
 
     return (
-        <Provider store={store} onLayout={onLayoutRootView}>
-            <Main />
+        <Provider store={store}>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+                <Messages />
+                <Main />
+            </View>
         </Provider>
-        // <View onLayout={onLayoutRootView}>
-        //     <Text>
-        //         Загрузите фото Загрузите фото Загрузите фото фото Загрузите фото
-        //         Загрузите фото Загрузите фото Загрузите фото Загрузите фото
-        //         Загрузите фото111 Загрузите
-        //     </Text>
-        // </View>
     );
 };
 
